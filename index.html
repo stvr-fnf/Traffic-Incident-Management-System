@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Traffic ControlDesk - Government Traffic Incident Management System">
+  <title>Traffic ControlDesk - Traffic Incident Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =========================================================
+       SECTION 1: AUTHORIZED OFFICER WELCOME SCREEN (SIGN IN & SIGN UP)
+       ========================================================= -->
+  <section id="loginScreen">
+    <div class="login-left">
+      <div class="brand-header">
+        <div class="brand-icon-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="7" y="2" width="10" height="20" rx="2" fill="#3b1219"/>
+            <circle cx="12" cy="6.5" r="2" fill="#ef4444"/>
+            <circle cx="12" cy="12" r="2" fill="#f59e0b"/>
+            <circle cx="12" cy="17.5" r="2" fill="#22c55e"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">Traffic ControlDesk</div>
+          <div class="brand-sub">Incident Management</div>
+        </div>
+      </div>
+
+      <h1>Traffic Incident Management System</h1>
+      <p>
+        One place for traffic controllers, dispatch officers, and field supervisors
+        to record road incidents, assign emergency response teams, and monitor city routes.
+      </p>
+
+      <ul class="feature-list">
+        <li><span>&#10003;</span> Real-time accident, breakdown, and congestion logging</li>
+        <li><span>&#10003;</span> Automatic response team assignment by incident category</li>
+        <li><span>&#10003;</span> Interactive city road-grid visualization by severity</li>
+        <li><span>&#10003;</span> Complete incident lifecycle tracking and searchable history</li>
+      </ul>
+    </div>
+
+    <div class="login-right">
+      <div class="login-card">
+
+        <!-- Sign In / Sign Up Switcher Tabs -->
+        <div class="auth-tabs">
+          <button type="button" id="tabBtnSignIn" class="auth-tab-btn active" onclick="toggleAuthMode('signin')">Sign In</button>
+          <button type="button" id="tabBtnSignUp" class="auth-tab-btn" onclick="toggleAuthMode('signup')">Sign Up</button>
+        </div>
+
+        <!-- PANEL A: SIGN IN FORM -->
+        <div id="signInPanel">
+          <h2>Welcome back</h2>
+          <p class="subtitle">Sign in to continue to your control-room dashboard.</p>
+
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginEmail">Official Email / Officer ID</label>
+              <input type="text" id="loginEmail" class="form-control" placeholder="Enter your official email" required>
+            </div>
+
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+            </div>
+
+            <div class="login-options">
+              <label for="rememberMe">
+                <input type="checkbox" id="rememberMe" checked>
+                <span>Remember me</span>
+              </label>
+              <a href="#help" id="forgotPassLink">Forgot password?</a>
+            </div>
+
+            <button type="submit" id="signInBtn" class="btn-signin">Sign in</button>
+          </form>
+
+          <div class="switch-auth-link">
+            New traffic officer? <a href="#signup" onclick="toggleAuthMode('signup'); return false;">Create an account</a>
+          </div>
+
+          <div class="demo-box">
+            <div class="demo-box-title">&#9432; Demo accounts - tap any account below to auto-fill</div>
+
+            <button type="button" class="demo-item" data-email="controller@traffic.gov.in" data-pass="Control@123">
+              <div class="demo-item-top">
+                <strong>Traffic Controller</strong>
+                <span class="demo-tap-badge">Tap to Fill</span>
+              </div>
+              <code>controller@traffic.gov.in / Control@123</code>
+            </button>
+
+            <button type="button" class="demo-item" data-email="dispatch@traffic.gov.in" data-pass="Dispatch@123">
+              <div class="demo-item-top">
+                <strong>Dispatch Officer</strong>
+                <span class="demo-tap-badge">Tap to Fill</span>
+              </div>
+              <code>dispatch@traffic.gov.in / Dispatch@123</code>
+            </button>
+
+            <button type="button" class="demo-item" data-email="supervisor@traffic.gov.in" data-pass="Field@123">
+              <div class="demo-item-top">
+                <strong>Field Supervisor</strong>
+                <span class="demo-tap-badge">Tap to Fill</span>
+              </div>
+              <code>supervisor@traffic.gov.in / Field@123</code>
+            </button>
+
+            <p class="demo-note">
+              Academic prototype: tap any demo account above to fill your credentials, then click <strong>Sign in</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- PANEL B: SIGN UP (NEW OFFICER REGISTRATION) FORM -->
+        <div id="signUpPanel" class="hidden">
+          <h2>Create Officer Account</h2>
+          <p class="subtitle">Register your official credentials for control-room access.</p>
+
+          <form id="signUpForm">
+            <div class="form-group">
+              <label for="regName">Officer Full Name *</label>
+              <input type="text" id="regName" class="form-control" placeholder="e.g. Inspector Aarav Verma" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="regBadge">Badge / Service ID *</label>
+                <input type="text" id="regBadge" class="form-control" placeholder="e.g. TRF-204" required>
+              </div>
+
+              <div class="form-group">
+                <label for="regRole">Control Room Role *</label>
+                <select id="regRole" class="form-control" required>
+                  <option value="Traffic Controller">Traffic Controller</option>
+                  <option value="Dispatch Officer">Dispatch Officer</option>
+                  <option value="Field Supervisor">Field Supervisor</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="regEmail">Official Government Email *</label>
+              <input type="email" id="regEmail" class="form-control" placeholder="officer.name@traffic.gov.in" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="regPassword">Create Password *</label>
+                <input type="password" id="regPassword" class="form-control" placeholder="Min. 6 characters" required>
+              </div>
+
+              <div class="form-group">
+                <label for="regConfirmPassword">Confirm Password *</label>
+                <input type="password" id="regConfirmPassword" class="form-control" placeholder="Re-enter password" required>
+              </div>
+            </div>
+
+            <div class="login-options">
+              <label for="regAgree">
+                <input type="checkbox" id="regAgree" required>
+                <span>I confirm I am an authorized transport official.</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn-signin">Create Account &amp; Enter Dashboard</button>
+          </form>
+
+          <div class="switch-auth-link">
+            Already registered? <a href="#signin" onclick="toggleAuthMode('signin'); return false;">Sign in to your account</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 2: CONTROL-ROOM DASHBOARD APPLICATION
+       ========================================================= -->
+  <div id="dashboardScreen" class="hidden">
+
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <div class="brand-icon-box" style="width:36px; height:36px; margin-right:10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <rect x="7" y="2" width="10" height="20" rx="2" fill="#3b1219"/>
+              <circle cx="12" cy="6.5" r="2" fill="#ef4444"/>
+              <circle cx="12" cy="12" r="2" fill="#f59e0b"/>
+              <circle cx="12" cy="17.5" r="2" fill="#22c55e"/>
+            </svg>
+          </div>
+          <div>
+            <div class="brand-name" style="font-size:16px;">Traffic ControlDesk</div>
+            <div class="brand-sub" style="font-size:9px;">Incident Management</div>
+          </div>
+        </div>
+
+        <nav>
+          <ul class="sidebar-nav">
+            <li><button type="button" class="nav-btn active" id="nav-overview" onclick="switchTab('overview')">Dashboard</button></li>
+            <li><button type="button" class="nav-btn" id="nav-report" onclick="switchTab('report')">Report Incident</button></li>
+            <li><button type="button" class="nav-btn" id="nav-map" onclick="switchTab('map')">City Map View</button></li>
+            <li><button type="button" class="nav-btn" id="nav-teams" onclick="switchTab('teams')">Response Teams</button></li>
+            <li><button type="button" class="nav-btn" id="nav-history" onclick="switchTab('history')">Incident History</button></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <button type="button" class="btn-logout" id="logoutBtn">&#8592; Logout</button>
+        <div class="officer-profile">
+          <div class="officer-avatar" id="officerInitials">RK</div>
+          <div>
+            <div class="officer-name" id="officerNameDisplay">Rajesh Kulkarni</div>
+            <div class="officer-role" id="officerRoleDisplay">Traffic Controller</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Right Content Area -->
+    <div class="main-area">
+      <header class="topbar">
+        <h1 id="pageHeading">Dashboard</h1>
+        <div class="topbar-date">Wednesday, 18 November 2026 | Zone-A Control Room</div>
+      </header>
+
+      <main class="content-wrapper">
+        <div class="welcome-row">
+          Welcome back, <strong id="welcomeOfficerName">Rajesh Kulkarni</strong> &middot; <span id="welcomeOfficerRole">Traffic Controller</span>
+        </div>
+
+        <!-- Quick Action Toolbar -->
+        <div class="quick-actions">
+          <button type="button" class="btn-gold" onclick="switchTab('report')">+ Report Incident</button>
+          <button type="button" class="btn-burgundy" onclick="switchTab('history')">Manage Active Cases</button>
+          <button type="button" class="btn-outline" onclick="switchTab('map')">View City Map</button>
+          <button type="button" class="btn-outline" onclick="switchTab('teams')">Response Teams</button>
+        </div>
+
+        <!-- =====================================================
+             TAB 1: OVERVIEW DASHBOARD
+             ===================================================== -->
+        <section id="tab-overview">
+          <div class="kpi-grid">
+            <article class="kpi-card">
+              <div class="kpi-number" id="kpiTotal">5</div>
+              <div class="kpi-label">Total Incidents</div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-number" id="kpiActive">4</div>
+              <div class="kpi-label">Active Incidents</div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-number" id="kpiCritical">2</div>
+              <div class="kpi-label">Critical Severity</div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-number">4</div>
+              <div class="kpi-label">Response Units</div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-number" id="kpiResolved">1</div>
+              <div class="kpi-label">Resolved Cases</div>
+            </article>
+          </div>
+
+          <div class="panel-grid">
+            <article class="card-panel">
+              <div class="panel-header">
+                <h2>Live Incident Dispatch Feed</h2>
+                <button type="button" class="panel-link" onclick="switchTab('history')">Open all records</button>
+              </div>
+              <ul class="feed-list" id="liveFeedList"></ul>
+            </article>
+
+            <article class="card-panel">
+              <div class="panel-header">
+                <h2>Incident Status Overview</h2>
+              </div>
+              <div class="chart-flex">
+                <svg width="160" height="160" viewBox="0 0 160 160">
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#e2d8ce" stroke-width="18"/>
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#3b1219" stroke-width="18"
+                          stroke-dasharray="150 377" transform="rotate(-90 80 80)"/>
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#b8860b" stroke-width="18"
+                          stroke-dasharray="110 377" stroke-dashoffset="-150" transform="rotate(-90 80 80)"/>
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#166534" stroke-width="18"
+                          stroke-dasharray="95 377" stroke-dashoffset="-260" transform="rotate(-90 80 80)"/>
+                  <text x="80" y="77" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#3b1219" id="donutTotalText">5</text>
+                  <text x="80" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#6e5d58">Total cases</text>
+                </svg>
+
+                <ul class="legend-list">
+                  <li><span><i class="dot" style="background:#9a3412;"></i>Reported</span><strong id="countReported">1</strong></li>
+                  <li><span><i class="dot" style="background:#1e40af;"></i>Assigned</span><strong id="countAssigned">2</strong></li>
+                  <li><span><i class="dot" style="background:#b8860b;"></i>In Progress</span><strong id="countProgress">1</strong></li>
+                  <li><span><i class="dot" style="background:#166534;"></i>Resolved</span><strong id="countResolved">1</strong></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- =====================================================
+             TAB 2: REPORT NEW TRAFFIC INCIDENT FORM
+             ===================================================== -->
+        <section id="tab-report" class="hidden">
+          <div class="panel-grid">
+            <article class="card-panel">
+              <div class="panel-header">
+                <h2>Record &amp; Dispatch New Traffic Incident</h2>
+              </div>
+
+              <form id="incidentForm">
+                <fieldset>
+                  <legend>Incident Location &amp; Classification</legend>
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label for="incCategory">Incident Category *</label>
+                      <select id="incCategory" class="form-control" onchange="autoSuggestTeam()" required>
+                        <option value="">-- Select Category --</option>
+                        <option value="Accident">Accident</option>
+                        <option value="Vehicle Breakdown">Vehicle Breakdown</option>
+                        <option value="Traffic Congestion">Traffic Congestion</option>
+                        <option value="Road Closure">Road Closure</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="incLocation">Road / Intersection Location *</label>
+                      <select id="incLocation" class="form-control" required>
+                        <option value="">-- Select Location --</option>
+                        <option value="Main Gate Road">Main Gate Road</option>
+                        <option value="Sector 5 Crossing">Sector 5 Crossing</option>
+                        <option value="Highway Junction NH-44">Highway Junction NH-44</option>
+                        <option value="Market Road">Market Road</option>
+                        <option value="Ring Road East">Ring Road East</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label for="incSeverity">Severity Level *</label>
+                      <select id="incSeverity" class="form-control" required>
+                        <option value="Low">Low (Minor Shoulder Delay)</option>
+                        <option value="Medium" selected>Medium (Single Lane Blocked)</option>
+                        <option value="High">High (Major Congestion)</option>
+                        <option value="Critical">Critical (Emergency / Collision)</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="incDate">Date of Report *</label>
+                      <input type="date" id="incDate" class="form-control" value="2026-11-18" required>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <legend>Response Dispatch &amp; Field Notes</legend>
+                  <div class="form-group">
+                    <label for="incTeam">Assigned Response Team *</label>
+                    <select id="incTeam" class="form-control" required>
+                      <option value="Police / Ambulance">Police / Ambulance</option>
+                      <option value="Recovery Team">Recovery Team</option>
+                      <option value="Traffic Control">Traffic Control</option>
+                      <option value="Road Maintenance">Road Maintenance</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Roadway Impact:</label>
+                    <label style="display:inline; font-weight:normal; margin-right:16px;">
+                      <input type="radio" name="laneImpact" value="Partial Lane Block" checked> Partial Lane Block
+                    </label>
+                    <label style="display:inline; font-weight:normal;">
+                      <input type="radio" name="laneImpact" value="Full Road Closure"> Full Road Closure
+                    </label>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="incNotes">Field Description &amp; Notes</label>
+                    <textarea id="incNotes" class="form-control" rows="3" maxlength="200" placeholder="Enter vehicle details, number of lanes affected, or landmark notes..."></textarea>
+                  </div>
+                </fieldset>
+
+                <button type="submit" class="btn-burgundy">Record &amp; Dispatch Incident</button>
+                <button type="reset" class="btn-outline">Clear Form</button>
+              </form>
+            </article>
+
+            <aside class="card-panel">
+              <div class="panel-header">
+                <h2>Standard Operating Procedures</h2>
+              </div>
+
+              <h3 style="font-size:14px; color:var(--primary-dark); margin-bottom:8px;">Response Team Allocation Matrix</h3>
+              <dl style="font-size:13px; margin-bottom:18px;">
+                <dt style="font-weight:bold; color:var(--primary-dark);">Accident</dt>
+                <dd style="margin:0 0 8px 14px; color:var(--text-muted);">Dispatch Police / Ambulance immediately for rescue and clearance.</dd>
+
+                <dt style="font-weight:bold; color:var(--primary-dark);">Vehicle Breakdown</dt>
+                <dd style="margin:0 0 8px 14px; color:var(--text-muted);">Assign Heavy Recovery / Towing Team to clear stalled vehicle.</dd>
+
+                <dt style="font-weight:bold; color:var(--primary-dark);">Traffic Congestion</dt>
+                <dd style="margin:0 0 8px 14px; color:var(--text-muted);">Deploy Traffic Control Wardens for manual signal override.</dd>
+
+                <dt style="font-weight:bold; color:var(--primary-dark);">Road Closure</dt>
+                <dd style="margin:0 0 8px 14px; color:var(--text-muted);">Coordinate with Road Maintenance for barricades and diversion signs.</dd>
+              </dl>
+
+              <h3 style="font-size:14px; color:var(--primary-dark); margin-bottom:8px;">Incident Status Workflow</h3>
+              <ol style="font-size:13px; padding-left:20px; color:var(--text-muted);">
+                <li><strong>Reported:</strong> Logged into control desk queue.</li>
+                <li><strong>Assigned:</strong> Response unit alerted and dispatched.</li>
+                <li><strong>In Progress:</strong> Unit on site actively clearing road.</li>
+                <li><strong>Resolved:</strong> Traffic flow restored; archived in history.</li>
+              </ol>
+            </aside>
+          </div>
+        </section>
+
+        <!-- =====================================================
+             TAB 3: MAP-STYLE CITY VISUALIZATION
+             ===================================================== -->
+        <section id="tab-map" class="hidden">
+          <article class="card-panel">
+            <div class="panel-header">
+              <h2>City Sector Road Network &amp; Active Severity Pins</h2>
+              <span style="font-size:12px; color:var(--text-muted);">Click or tap any colored marker on the map to inspect details</span>
+            </div>
+
+            <figure style="text-align:center;">
+              <svg id="cityMapSvg" width="100%" height="360" viewBox="0 0 800 360" style="background-color:#f4efe6; border:1px solid #cbbeb3; border-radius:6px;">
+                <rect x="40" y="30" width="210" height="110" fill="#ebe3d5" stroke="#d5c8b8"/>
+                <rect x="300" y="30" width="210" height="110" fill="#ebe3d5" stroke="#d5c8b8"/>
+                <rect x="560" y="30" width="200" height="110" fill="#ebe3d5" stroke="#d5c8b8"/>
+
+                <rect x="40" y="200" width="210" height="120" fill="#ebe3d5" stroke="#d5c8b8"/>
+                <rect x="300" y="200" width="210" height="120" fill="#ebe3d5" stroke="#d5c8b8"/>
+                <rect x="560" y="200" width="200" height="120" fill="#ebe3d5" stroke="#d5c8b8"/>
+
+                <rect x="0" y="152" width="800" height="36" fill="#5c534f"/>
+                <line x1="0" y1="170" x2="800" y2="170" stroke="#facc15" stroke-width="2" stroke-dasharray="14,10"/>
+
+                <rect x="262" y="0" width="26" height="360" fill="#5c534f"/>
+                <rect x="522" y="0" width="26" height="360" fill="#5c534f"/>
+
+                <text x="115" y="146" font-family="Arial" font-size="11" font-weight="bold" fill="#3b1219">Main Gate Road</text>
+                <text x="295" y="24" font-family="Arial" font-size="11" font-weight="bold" fill="#3b1219">Sector 5 Crossing</text>
+                <text x="355" y="146" font-family="Arial" font-size="11" font-weight="bold" fill="#3b1219">Highway Junction NH-44</text>
+                <text x="555" y="24" font-family="Arial" font-size="11" font-weight="bold" fill="#3b1219">Market Road</text>
+                <text x="625" y="146" font-family="Arial" font-size="11" font-weight="bold" fill="#3b1219">Ring Road East</text>
+
+                <g id="mapPinsLayer"></g>
+              </svg>
+              <figcaption style="margin-top:10px; font-size:12px; color:var(--text-muted);">
+                <strong>Severity Legend:</strong>
+                <span style="color:#991b1b; font-weight:bold; margin:0 10px;">&#9679; Critical</span>
+                <span style="color:#c2410c; font-weight:bold; margin:0 10px;">&#9679; High</span>
+                <span style="color:#b8860b; font-weight:bold; margin:0 10px;">&#9679; Medium</span>
+                <span style="color:#166534; font-weight:bold; margin:0 10px;">&#9679; Low</span>
+              </figcaption>
+            </figure>
+          </article>
+        </section>
+
+        <!-- =====================================================
+             TAB 4: RESPONSE TEAMS DIRECTORY
+             ===================================================== -->
+        <section id="tab-teams" class="hidden">
+          <article class="card-panel">
+            <div class="panel-header">
+              <h2>Emergency &amp; Traffic Response Units</h2>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Unit Code</th>
+                  <th>Response Team</th>
+                  <th>Primary Incident Category</th>
+                  <th>Base Station</th>
+                  <th>Radio Channel</th>
+                  <th>Readiness Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>UNIT-P1</strong></td>
+                  <td>Police / Ambulance</td>
+                  <td>Accident &amp; Medical Emergency</td>
+                  <td>Central Gate HQ</td>
+                  <td>CH-01 (156.8 MHz)</td>
+                  <td><span class="badge badge-assigned">Active on Patrol</span></td>
+                </tr>
+                <tr>
+                  <td><strong>UNIT-R2</strong></td>
+                  <td>Recovery Team</td>
+                  <td>Vehicle Breakdown &amp; Towing</td>
+                  <td>Sector 5 Depot</td>
+                  <td>CH-02 (157.2 MHz)</td>
+                  <td><span class="badge badge-progress">Dispatched</span></td>
+                </tr>
+                <tr>
+                  <td><strong>UNIT-T3</strong></td>
+                  <td>Traffic Control</td>
+                  <td>Traffic Congestion &amp; Signal Ops</td>
+                  <td>NH-44 Toll Plaza</td>
+                  <td>CH-03 (158.0 MHz)</td>
+                  <td><span class="badge badge-resolved">Standby Ready</span></td>
+                </tr>
+                <tr>
+                  <td><strong>UNIT-M4</strong></td>
+                  <td>Road Maintenance</td>
+                  <td>Road Closure &amp; Barrier Setup</td>
+                  <td>Ring Road Yard</td>
+                  <td>CH-04 (158.5 MHz)</td>
+                  <td><span class="badge badge-resolved">Standby Ready</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </section>
+
+        <!-- =====================================================
+             TAB 5: INCIDENT MANAGEMENT & HISTORY TABLE
+             ===================================================== -->
+        <section id="tab-history" class="hidden">
+          <article class="card-panel">
+            <div class="panel-header">
+              <h2>Traffic Incident Log &amp; History</h2>
+            </div>
+
+            <div class="filter-bar">
+              <input type="text" id="searchInput" class="form-control" style="max-width:280px;" placeholder="Search by ID, location, or category..." onkeyup="renderDashboard()">
+              <select id="statusFilter" class="form-control" style="max-width:200px;" onchange="renderDashboard()">
+                <option value="ALL">All Statuses</option>
+                <option value="Reported">Reported</option>
+                <option value="Assigned">Assigned</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Category</th>
+                  <th>Location</th>
+                  <th>Severity</th>
+                  <th>Response Team</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="incidentTableBody"></tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="8" id="tableFooterSummary">Showing 5 total incident records</td>
+                </tr>
+              </tfoot>
+            </table>
+          </article>
+        </section>
+      </main>
+
+      <footer>
+        <span>&copy; 2026 Municipal Traffic Control Authority &middot; ControlDesk Portal</span>
+        <span>Emergency Helpline: <a href="tel:1073">1073</a> | Control Room: <a href="mailto:control@traffic.gov.in">control@traffic.gov.in</a></span>
+      </footer>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
